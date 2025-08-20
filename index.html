@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
-  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+        content="Music- & genre-conditioned 3D dance SMPL motion generation with keyframes.">
+  <meta name="keywords" content="HuMoGen-X, Diffusion, Multimodality, Chained CFG">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nerfies: Deformable Neural Radiance Fields</title>
+  <title>HuMoGen-X: User-Guided Editing, Genre-Aware 3D Motion Generation via Music Conditioned Diffusion</title>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
@@ -88,32 +88,17 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Nerfies: Deformable Neural Radiance Fields</h1>
+          <h1 class="title is-1 publication-title">HuMoGen-X: User-Guided Editing, Genre-Aware 3D Motion Generation via Music-Conditioned Diffusion</h1>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
-              <a href="https://keunhong.com">Keunhong Park</a><sup>1</sup>,</span>
+              <a href="https://daye-lee18.github.io/">Daye Lee</a><sup>1</sup>,</span>
             <span class="author-block">
-              <a href="https://utkarshsinha.com">Utkarsh Sinha</a><sup>2</sup>,</span>
-            <span class="author-block">
-              <a href="https://jonbarron.info">Jonathan T. Barron</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="http://sofienbouaziz.com">Sofien Bouaziz</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://www.danbgoldman.com">Dan B Goldman</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://homes.cs.washington.edu/~seitz/">Steven M. Seitz</a><sup>1,2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="http://www.ricardomartinbrualla.com">Ricardo Martin-Brualla</a><sup>2</sup>
+              <a href="snu-laal.com">Taesup Kim</a><sup>1</sup>,</span>
             </span>
           </div>
 
           <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>University of Washington,</span>
-            <span class="author-block"><sup>2</sup>Google Research</span>
+            <span class="author-block"><sup>1</sup>Seoul National University,</span>
           </div>
 
           <div class="column has-text-centered">
@@ -175,7 +160,7 @@
   </div>
 </section>
 
-<section class="hero teaser">
+<!-- <section class="hero teaser">
   <div class="container is-max-desktop">
     <div class="hero-body">
       <video id="teaser" autoplay muted loop playsinline height="100%">
@@ -186,6 +171,16 @@
         <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
         free-viewpoint
         portraits.
+      </h2>
+    </div>
+  </div>
+</section> -->
+<section class="model architecture">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+        <img source src="./static/images/model_architecture.png" />
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">HuMoGen-X</span> takes music, dance genre class and user-defined keyframes and outputs 3D dance motion aligned with all of three conditions
       </h2>
     </div>
   </div>
@@ -258,32 +253,19 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            We present the first method capable of photorealistically reconstructing a non-rigidly
-            deforming scene using photos/videos captured casually from mobile phones.
+            We introduce <strong>HuMoGen-X</strong>, a controllable diffusion-based framework for 3D dance motion generation conditioned on three user-defined inputs: music, dance genre, and keyframes. While prior models primarily focus on music alignment or implicit genre control, HuMoGen-X enables explicit and disentangled conditioning across modalities, allowing users to guide choreography both stylistically and structurally.
           </p>
           <p>
-            Our approach augments neural radiance fields
-            (NeRF) by optimizing an
-            additional continuous volumetric deformation field that warps each observed point into a
-            canonical 5D NeRF.
-            We observe that these NeRF-like deformation fields are prone to local minima, and
-            propose a coarse-to-fine optimization method for coordinate-based models that allows for
-            more robust optimization.
-            By adapting principles from geometry processing and physical simulation to NeRF-like
-            models, we propose an elastic regularization of the deformation field that further
-            improves robustness.
+            To support this framework, we construct a novel dataset, <strong>CrossGenreSet</strong>, which comprises 12 distinct dance genres and includes both genre-aligned and genre-mismatched pairs. This dataset not only increases motion diversity but also enables robust evaluation under complex multi-conditional control scenarios.
+            Our model extends the denoising diffusion probabilistic model by incorporating a Transformer-based decoder and introduces <strong>Chained Classifier-Free Guidance (Chained CFG)</strong> to generate realistic and high-quality 3D dance motions conditioned simultaneously on music, genre, and keyframes. Furthermore, we integrate an additional independent single-condition CFG mechanism, allowing fine-grained modulation of each input condition—music, genre, and keyframe—during the sampling process.
           </p>
           <p>
-            We show that <span class="dnerf">Nerfies</span> can turn casually captured selfie
-            photos/videos into deformable NeRF
-            models that allow for photorealistic renderings of the subject from arbitrary
-            viewpoints, which we dub <i>"nerfies"</i>. We evaluate our method by collecting data
-            using a
-            rig with two mobile phones that take time-synchronized photos, yielding train/validation
-            images of the same pose at different viewpoints. We show that our method faithfully
-            reconstructs non-rigidly deforming scenes and reproduces unseen views with high
-            fidelity.
+            To quantitatively assess the genre consistency of the generated motions, we introduce a lightweight genre classifier tailored for the HuMoGen-X framework. Experimental results demonstrate that HuMoGen-X consistently outperforms existing baseline models across multiple metrics, including structural alignment (MPJPE$_k$, MPJPE$_g$), rhythm-to-music synchronization (Beat Alignment), and genre fidelity (F1 score, Top-1 accuracy).
           </p>
+          <p>
+            These findings underscore the significance of cascaded genre integration - evidenced by t-SNE visualizations—and the effectiveness of multi-conditional control enabled by the proposed Chained Classifier-Free Guidance (Chained CFG) mechanism. Collectively, they establish HuMoGen-X as a practical and expressive framework for interactive choreography generation.
+          </p>
+
         </div>
       </div>
     </div>

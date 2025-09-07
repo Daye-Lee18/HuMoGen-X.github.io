@@ -201,7 +201,23 @@
           <div class="card-image">
             <figure class="image">
               <video class="video" autoplay controls muted loop playsinline preload="metadata" style="width:100%; border-radius:12px;">
-                <source src="./static/videos/keyframe_only/sample_keyframe_best.mp4" type="video/mp4">
+                <source src="./static/videos/keyframe_only/test_gBR_test_mAP1_gWA1.mp4" type="video/mp4">
+              </video>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <!-- Music-only -->
+      <div class="column is-12-mobile is-6-tablet is-4-desktop">
+        <div class="card">
+          <div class="card-content has-text-centered">
+            <p class="title is-5">Music-only</p>
+            <div class="tags is-centered"><span class="tag is-link">s_mo = 1</span></div>
+          </div>
+          <div class="card-image">
+            <figure class="image">
+              <video class="video" autoplay controls muted loop playsinline preload="metadata" style="width:100%; border-radius:12px;">
+                <source src="./static/videos/music_only/test_gBR_test_mCN2_gMH1.mp4" type="video/mp4">
               </video>
             </figure>
           </div>
@@ -214,6 +230,7 @@
           <div class="card-content has-text-centered">
             <p class="title is-5">Music + Genre + Sketch</p>
             <div class="tags is-centered">
+              <!-- <span class="tag is-primary is-light">`Ballet` with `House`music from `shuffle key poses` </span> -->
               <span class="tag is-primary is-light">s_m = 1.0</span>
               <span class="tag is-primary">s_g = 1.0</span>
               <span class="tag is-warning">s_s = 1.0</span>
@@ -222,16 +239,70 @@
           <div class="card-image">
             <figure class="image">
               <video class="video" autoplay controls muted loop playsinline preload="metadata" style="width:100%; border-radius:12px;">
-                <source src="./static/videos/all_conditions/best_all_conditions.mp4" type="video/mp4">
+                <source src="./static/videos/three_conditions/test_gJB_test_mHO1_gSF1.mp4" type="video/mp4">
               </video>
             </figure>
+            <figcaption class="has-text-centered is-size-6 has-text-grey">
+                Input: Ballet (Genre) + House (Music) + Shuffle (Keyframe)<br>
+              </figcaption>
+          </div>
+        </div>
+      </div>
+   
+
+      <!-- All (music+genre+sketch) -->
+      <div class="column is-12-mobile is-6-tablet is-4-desktop">
+        <div class="card">
+          <div class="card-content has-text-centered">
+            <p class="title is-5">Music + Genre + Sketch</p>
+            <div class="tags is-centered">
+              <!-- <span class="tag is-primary is-light">`Ballet` with `House`music from `shuffle key poses` </span> -->
+              <span class="tag is-primary is-light">s_m = 1.0</span>
+              <span class="tag is-primary">s_g = 1.0</span>
+              <span class="tag is-warning">s_s = 1.0</span>
+            </div>
+          </div>
+          <div class="card-image">
+            <figure class="image">
+              <video class="video" autoplay controls muted loop playsinline preload="metadata" style="width:100%; border-radius:12px;">
+                <source src="./static/videos/three_conditions/test_gLO_test_mLT2_gLO1.mp4" type="video/mp4">
+              </video>
+            </figure>
+            <figcaption class="has-text-centered is-size-6 has-text-grey">
+                Input: Locking (Genre) + Latin (Music) + Locking (Keyframe) <br>
+              </figcaption>
+          </div>
+        </div>
+      </div>
+
+      <!-- All (music+genre+sketch) -->
+      <div class="column is-12-mobile is-6-tablet is-4-desktop">
+        <div class="card">
+          <div class="card-content has-text-centered">
+            <p class="title is-5">Music + Genre + Sketch</p>
+            <div class="tags is-centered">
+              <!-- <span class="tag is-primary is-light">`Ballet` with `House`music from `shuffle key poses` </span> -->
+              <span class="tag is-primary is-light">s_m = 1.0</span>
+              <span class="tag is-primary">s_g = 1.0</span>
+              <span class="tag is-warning">s_s = 1.0</span>
+            </div>
+          </div>
+          <div class="card-image">
+            <figure class="image">
+              <video class="video" autoplay controls muted loop playsinline preload="metadata" style="width:100%; border-radius:12px;">
+                <source src="./static/videos/three_conditions/test_gKR_test_mCN1_gHO1.mp4" type="video/mp4">
+              </video>
+            </figure>
+            <figcaption class="has-text-centered is-size-6 has-text-grey">
+                Input: Krump (Genre) + Piano (Music) + House (Keyframe) <br>
+              </figcaption>
           </div>
         </div>
       </div>
     </div>
 
     <p class="has-text-grey is-size-7 has-text-centered" style="margin-top:0.5rem;">
-      * 가이던스 수치는 예시입니다. 실제 실험에서 찾은 최적값으로 교체하세요.
+      * 가이던스 수치는 실제 실험에서 찾은 최적값 예시입니다.
     </p>
   </div>
 </section>

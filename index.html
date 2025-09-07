@@ -64,7 +64,7 @@
       <a class="navbar-item" href="#overview">Overview</a>
       <a class="navbar-item" href="#best-guidance-samples">Best Settings</a>
       <a class="navbar-item" href="#conditioned-results">Conditioned Results</a>
-      <a class="navbar-item" href="#sweeps">Guidance Sweeps</a>
+      <a class="navbar-item" href="#dataset">Dataset</a>
       <a class="navbar-item" href="#live-demo">Live Demo</a>
     </div>
   </div>
@@ -231,9 +231,9 @@
             <p class="title is-5">Music + Genre + Sketch</p>
             <div class="tags is-centered">
               <!-- <span class="tag is-primary is-light">`Ballet` with `House`music from `shuffle key poses` </span> -->
-              <span class="tag is-primary is-light">s_m = 1.0</span>
-              <span class="tag is-primary">s_g = 1.0</span>
-              <span class="tag is-warning">s_s = 1.0</span>
+              <span class="tag is-primary is-light">s_mo = 1.0</span>
+              <span class="tag is-primary">s_mg = 1.0</span>
+              <span class="tag is-warning">s_mgs = 1.0</span>
             </div>
           </div>
           <div class="card-image">
@@ -257,9 +257,9 @@
             <p class="title is-5">Music + Genre + Sketch</p>
             <div class="tags is-centered">
               <!-- <span class="tag is-primary is-light">`Ballet` with `House`music from `shuffle key poses` </span> -->
-              <span class="tag is-primary is-light">s_m = 1.0</span>
-              <span class="tag is-primary">s_g = 1.0</span>
-              <span class="tag is-warning">s_s = 1.0</span>
+              <span class="tag is-primary is-light">s_mo = 1.0</span>
+              <span class="tag is-primary">s_mg = 1.0</span>
+              <span class="tag is-warning">s_mgs = 1.0</span>
             </div>
           </div>
           <div class="card-image">
@@ -282,9 +282,9 @@
             <p class="title is-5">Music + Genre + Sketch</p>
             <div class="tags is-centered">
               <!-- <span class="tag is-primary is-light">`Ballet` with `House`music from `shuffle key poses` </span> -->
-              <span class="tag is-primary is-light">s_m = 1.0</span>
-              <span class="tag is-primary">s_g = 1.0</span>
-              <span class="tag is-warning">s_s = 1.0</span>
+              <span class="tag is-primary is-light">s_mo = 1.0</span>
+              <span class="tag is-primary">s_mg = 1.0</span>
+              <span class="tag is-warning">s_mgs = 1.0</span>
             </div>
           </div>
           <div class="card-image">
@@ -403,76 +403,165 @@
   </div>
 </section>
 
-<!-- GUIDANCE SWEEPS -->
-<section class="section" id="sweeps">
-  <div class="container is-max-desktop">
-    <h2 class="title is-3 has-text-centered">Guidance Weight Sweeps</h2>
-    <p class="subtitle is-6 has-text-centered">s_m / s_g / s_s를 낮음–중간–높음으로 스윕한 결과를 요약해 보여줍니다.</p>
-
-    <div class="columns is-multiline">
-      <!-- s_m sweep -->
-      <div class="column is-12-mobile is-6-tablet is-4-desktop">
-        <div class="card">
-          <div class="card-content has-text-centered">
-            <p class="title is-5">Music guidance (s_m)</p>
-            <div class="tags is-centered">
-              <span class="tag">0.8</span><span class="tag">1.5</span><span class="tag">2.2</span>
+<!-- DATASET SHOWCASE -->
+<section class="section" id="dataset">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">CrossGenreSet — Dataset Examples</h2>
+      <p class="subtitle is-6 has-text-centered">
+        12개 장르의 <strong>장르 일치/불일치</strong> 음악–모션 페어와 <strong>키프레임 주석</strong> 예시를 보여줍니다.
+      </p>
+  
+      <!-- 간단 범례 -->
+      <div class="ds-legend">
+        <span class="tag is-success is-light">Matched (genre = music)</span>
+        <span class="tag is-danger is-light">Mismatched (genre ≠ music)</span>
+        <span class="tag is-warning is-light">Keyframe Annotations</span>
+      </div>
+  
+      <div class="columns is-multiline">
+        <!-- Matched pair 1 -->
+        <div class="column is-12-mobile is-6-tablet is-4-desktop">
+          <div class="card">
+            <div class="card-content has-text-centered">
+              <p class="title is-5">Matched Pair</p>
+              <!-- <p class="subtitle is-6">House dancer × House music</p> -->
+            </div>
+            <div class="card-image">
+              <figure class="image">
+                <div class="video-wrap">
+                  <span class="badge">Matched</span>
+                  <video autoplay muted loop playsinline preload="metadata">
+                    <source src="./static/videos/dataset/matched_house.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <figcaption class="figcap">
+                  Genre: <strong>House</strong> · Music: <strong>House</strong>
+                </figcaption>
+              </figure>
             </div>
           </div>
-          <div class="card-image">
-            <figure class="image">
-              <video class="video" controls muted loop playsinline preload="metadata" style="width:100%; border-radius:12px;">
-                <source src="./static/videos/sweeps/sm_sweep.mp4" type="video/mp4">
-              </video>
-            </figure>
-          </div>
         </div>
-      </div>
-
-      <!-- s_g sweep -->
-      <div class="column is-12-mobile is-6-tablet is-4-desktop">
-        <div class="card">
-          <div class="card-content has-text-centered">
-            <p class="title is-5">Genre guidance (s_g)</p>
-            <div class="tags is-centered">
-              <span class="tag">0.8</span><span class="tag">1.2</span><span class="tag">1.8</span>
+  
+        <!-- Matched pair 2 -->
+        <div class="column is-12-mobile is-6-tablet is-4-desktop">
+          <div class="card">
+            <div class="card-content has-text-centered">
+              <p class="title is-5">Matched Pair</p>
+              <!-- <p class="subtitle is-6">Waacking dancer × Waacking music</p> -->
+            </div>
+            <div class="card-image">
+              <figure class="image">
+                <div class="video-wrap">
+                  <span class="badge">Matched</span>
+                  <video autoplay muted loop playsinline preload="metadata">
+                    <source src="./static/videos/dataset/matched_waacking.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <figcaption class="figcap">
+                  Genre: <strong>Waacking</strong> · Music: <strong>Waacking</strong>
+                </figcaption>
+              </figure>
             </div>
           </div>
-          <div class="card-image">
-            <figure class="image">
-              <video class="video" controls muted loop playsinline preload="metadata" style="width:100%; border-radius:12px;">
-                <source src="./static/videos/sweeps/sg_sweep.mp4" type="video/mp4">
-              </video>
-            </figure>
-          </div>
         </div>
-      </div>
-
-      <!-- s_s sweep -->
-      <div class="column is-12-mobile is-6-tablet is-4-desktop">
-        <div class="card">
-          <div class="card-content has-text-centered">
-            <p class="title is-5">Sketch/keyframe guidance (s_s)</p>
-            <div class="tags is-centered">
-              <span class="tag">0.6</span><span class="tag">1.0</span><span class="tag">1.4</span>
+  
+        <!-- Mismatched pair -->
+        <div class="column is-12-mobile is-6-tablet is-4-desktop">
+          <div class="card">
+            <div class="card-content has-text-centered">
+              <p class="title is-5">Mismatched Pair</p>
+              <!-- <p class="subtitle is-6">Locking dancer × Latin music</p> -->
+            </div>
+            <div class="card-image">
+              <figure class="image">
+                <div class="video-wrap">
+                  <span class="badge" style="background:rgba(220,53,69,.8);">Mismatched</span>
+                  <video autoplay muted loop playsinline preload="metadata">
+                    <source src="./static/videos/dataset/mismatch_locking_latin.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <figcaption class="figcap">
+                  Genre: <strong>Locking</strong> · Music: <strong>Latin</strong>
+                </figcaption>
+              </figure>
             </div>
           </div>
-          <div class="card-image">
-            <figure class="image">
-              <video class="video" controls muted loop playsinline preload="metadata" style="width:100%; border-radius:12px;">
-                <source src="./static/videos/sweeps/ss_sweep.mp4" type="video/mp4">
-              </video>
-            </figure>
+        </div>
+  
+        <!-- Mismatched pair -->
+        <div class="column is-12-mobile is-6-tablet is-4-desktop">
+          <div class="card">
+            <div class="card-content has-text-centered">
+              <p class="title is-5">Mismatched Pair</p>
+              <!-- <p class="subtitle is-6">Locking dancer × Latin music</p> -->
+            </div>
+            <div class="card-image">
+              <figure class="image">
+                <div class="video-wrap">
+                  <span class="badge" style="background:rgba(220,53,69,.8);">Mismatched</span>
+                  <video autoplay muted loop playsinline preload="metadata">
+                    <source src="./static/videos/dataset/mismatch_locking_latin.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <figcaption class="figcap">
+                  Genre: <strong>Locking</strong> · Music: <strong>Latin</strong>
+                </figcaption>
+              </figure>
+            </div>
           </div>
         </div>
+  
+        <!-- Keyframe annotations (image/overlay or video) -->
+        <!-- <div class="column is-12-mobile is-6-tablet is-6-desktop">
+          <div class="card">
+            <div class="card-content has-text-centered">
+              <p class="title is-5">Keyframe Annotations</p>
+              <p class="subtitle is-6">Sparse pose landmarks with frame indices</p>
+            </div>
+            <div class="card-image">
+              <figure class="image">
+                <div class="video-wrap">
+                  <span class="badge" style="background:rgba(245,158,11,.85);">Keyframes</span>
+                  <video autoplay muted loop playsinline preload="metadata">
+                    <source src="./static/videos/dataset/keyframes_overlay.mp4" type="video/mp4">
+                  </video>
+                </div>
+                <figcaption class="figcap">
+                  Example: k = 5 key poses (frames 10, 28, 47, 66, 84), tolerance ±2 frames
+                </figcaption>
+              </figure>
+            </div>
+          </div>
+        </div> -->
+  
+        <!-- Genre list / counts -->
+        <div class="column is-12-mobile is-6-tablet is-6-desktop">
+          <div class="card">
+            <div class="card-content">
+              <p class="title is-5 has-text-centered">Genres & Statistics</p>
+              <div class="content">
+                <ul style="columns:1; -webkit-columns:1; -moz-columns:1;">
+                  <li>House, Locking, Waacking, Middle Hip-Hop, Street Jazz, Krump, Popping, Ballet</li><li>(New!) Latin, Shuffle</li>
+                </ul>
+                <p class="figcap" style="margin-top:.5rem;">
+                  Total clips: <strong>XXXX</strong> · Matched: <strong>YYYY</strong> · Mismatched: <strong>ZZZZ</strong> · Avg length: <strong>~12s</strong>
+                </p>
+                <p class="has-text-centered" style="margin-top:.5rem;">
+                  <a class="button is-small is-link is-light" href="#" disabled>Dataset download (coming soon)</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+  
       </div>
+  
+      <p class="has-text-grey is-size-7 has-text-centered" style="margin-top:.75rem;">
+        * 위 비디오는 예시입니다. 실제 공개본에서는 식별 정보가 제거된 샘플/메타데이터를 제공합니다.
+      </p>
     </div>
-
-    <p class="has-text-grey is-size-7 has-text-centered" style="margin-top:0.5rem;">
-      * 각 스윕은 동일 입력/길이/seed로 공정 비교했습니다.
-    </p>
-  </div>
-</section>
+  </section>
+  
 
 <!-- LIVE DEMO (HF Spaces) -->
 <section class="section" id="live-demo">

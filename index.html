@@ -77,13 +77,31 @@
       <div class="columns is-centered">
         <div class="column has-text-centered">
           <h1 class="title is-1 publication-title">HuMoGen-X: User-Guided Editing, Genre-Aware 3D Motion Generation via Music-Conditioned Diffusion</h1>
-          <div class="is-size-5 publication-authors">
+          <!-- <div class="is-size-5 publication-authors">
             <span class="author-block"><a href="https://daye-lee18.github.io/">Daye Lee</a><sup>1</sup>,</span>
             <span class="author-block"><a href="https://snu-laal.com">Taesup Kim</a><sup>1</sup></span>
           </div>
           <div class="is-size-6 publication-authors">
             <span class="author-block"><sup>1</sup>Seoul National University</span>
-          </div>
+          </div> -->
+        <!-- ===== Authors & Affiliation (REPLACE THIS BLOCK) ===== -->
+        <div class="is-size-5 publication-authors">
+            <span class="author-block">
+            <a href="https://daye-lee18.github.io/">Daye Lee</a><sup>1</sup>
+            </span>
+            <span class="author-block">
+            <a href="https://snu-laal.com">Taesup Kim</a><sup>1,*</sup>
+            </span>
+        </div>
+        
+        <div class="is-size-6 publication-authors">
+            <span class="author-block"><sup>1</sup>Seoul National University</span>
+            <span class="author-block"><sup>*</sup>Corresponding author (Advisor)</span>
+        </div>
+        <!-- ================================================ -->
+        
+        <!-- ================================================ -->
+        
 
           <div class="publication-links" style="margin-top:1rem;">
             <!-- 필요 시 링크 교체 -->
@@ -112,7 +130,7 @@
       </div>
 
       <!-- Model Overview -->
-      <div class="columns is-centered" style="margin-top:2rem;">
+      <!-- <div class="columns is-centered" style="margin-top:2rem;">
         <div class="column is-10 has-text-centered">
           <figure class="image">
             <img src="./static/images/model_architecture.png" alt="Model Architecture" style="border-radius:12px;"/>
@@ -121,7 +139,7 @@
             <strong>HuMoGen-X</strong> takes <em>music</em>, <em>dance genre</em>, and <em>user keyframes</em> to generate 3D dance motion aligned with all three.
           </p>
         </div>
-      </div>
+      </div> -->
 
       <!-- Abstract -->
       <div class="columns is-centered has-text-centered" style="margin-top:1rem;">
@@ -232,44 +250,67 @@
       <!-- Genre-only carousel -->
       <h3 class="title is-4 has-text-centered" style="margin-bottom:0.75rem;">Genre-only</h3>
       <div id="carousel-genre" class="carousel results-carousel">
-        <div class="item">
-          <p class="has-text-centered"><strong>House</strong></p>
-          <video autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/genre_only/test_gHO_test_mAP2_gJB1.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="item">
-          <p class="has-text-centered"><strong>Street Jazz</strong></p>
-          <video autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/genre_only/test_gJS_test_mRB1_gBR1.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="item">
-          <p class="has-text-centered"><strong>Waacking</strong></p>
-          <video autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/genre_only/test_gWA_test_mLT2_gLO1.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="item">
-          <p class="has-text-centered"><strong>Middle Hip-Hop</strong></p>
-          <video autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/genre_only/test_gMH_test_mDI1_gPO1.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="item">
-          <p class="has-text-centered"><strong>Latin</strong></p>
-          <video autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/genre_only/test_gLT_test_mCN4_gJB1.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="item">
-          <p class="has-text-centered"><strong>Locking</strong></p>
-          <video autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/genre_only/test_gLO_test_mAP3_gJS1.mp4" type="video/mp4">
-          </video>
-        </div>
-      </div>
+          <!-- House -->
+            <div class="item video-item">
+                <div class="video-wrapper">
+                <video autoplay controls muted loop playsinline style="width:100%; border-radius:8px;">
+                    <source src="./static/videos/genre_only/test_gHO_test_mAP2_gJB1.mp4" type="video/mp4">
+                </video>
+                <div class="video-label">House</div>
+                </div>
+            </div>
 
+            <!-- Street Jazz -->
+            <div class="item video-item">
+                <div class="video-wrapper">
+                <video autoplay controls muted loop playsinline style="width:100%; border-radius:8px;">
+                    <source src="./static/videos/genre_only/test_gJS_test_mRB1_gBR1.mp4" type="video/mp4">
+                </video>
+                <div class="video-label">Street Jazz</div>
+                </div>
+            </div>
+
+            <!-- Waacking -->
+            <div class="item video-item">
+                <div class="video-wrapper">
+                <video autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/genre_only/test_gWA_test_mLT2_gLO1.mp4" type="video/mp4">
+                </video>
+                <div class="video-label">Waccking</div>
+                </div>
+            </div>
+
+            <!--Middle Hip-Hop -->
+            <div class="item video-item">
+                <div class="video-wrapper">
+                <video autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/genre_only/test_gMH_test_mDI1_gPO1.mp4" type="video/mp4">
+                </video>
+                <div class="video-label">Middle Hip-Hop</div>
+                </div>
+            </div>
+
+            <!-- Latin-->
+            <div class="item video-item">
+                <div class="video-wrapper">
+                <video autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/genre_only/test_gLT_test_mCN4_gJB1.mp4" type="video/mp4">
+                </video>
+                <div class="video-label">Latin</div>
+                </div>
+            </div>
+            
+            <!-- Locking -->
+            <div class="item video-item">
+                <div class="video-wrapper">
+                <video autoplay controls muted loop playsinline height="100%">
+                    <source src="./static/videos/genre_only/test_gLO_test_mAP3_gJS1.mp4" type="video/mp4">
+                </video>
+                <div class="video-label">Locking</div>
+                </div>
+            </div>
+    
+     </div>
       <!-- Keyframe-only section -->
       <h3 class="title is-4 has-text-centered" style="margin-top:2rem;">Keyframe-only</h3>
       <div class="content has-text-centered">

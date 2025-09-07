@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Music- & genre-conditioned 3D dance SMPL motion generation with keyframes.">
+  <meta name="keywords" content="HuMoGen-X, Diffusion, Multimodality, Chained CFG">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HuMoGen-X: User-Guided Editing, Genre-Aware 3D Motion Generation via Music Conditioned Diffusion</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+  <!-- MathJax v3 설정 (인라인 $, 디스플레이 $$ 지원) -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ['script','noscript','style','textarea','pre','code']  // 코드블록은 무시
+      }
+    };
+  </script>
+  <!-- MathJax 본체 -->
+  <script id="MathJax-script" async
+          src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+</head>
+<body>
+
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://keunhong.com">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://hypernerf.github.io">
+            HyperNeRF
+          </a>
+          <a class="navbar-item" href="https://nerfies.github.io">
+            Nerfies
+          </a>
+          <a class="navbar-item" href="https://latentfusion.github.io">
+            LatentFusion
+          </a>
+          <a class="navbar-item" href="https://photoshape.github.io">
+            PhotoShape
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">HuMoGen-X: User-Guided Editing, Genre-Aware 3D Motion Generation via Music-Conditioned Diffusion</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://daye-lee18.github.io/">Daye Lee</a><sup>1</sup>,</span>
+            <span class="author-block">
+              <a href="snu-laal.com">Taesup Kim</a><sup>1</sup>,</span>
+            </span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Seoul National University,</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/pdf/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=MrKrnHhk8IA"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/google/nerfies"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Demo Link. -->
+              <span class="link-block">
+                <a href="https://huggingface.co/spaces/isYes/HuMoGen-X_Demo"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+              <span class="link-block">
+                <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- <section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video id="teaser" autoplay muted loop playsinline height="100%">
+        <source src="./static/videos/teaser.mp4"
+                type="video/mp4">
+      </video>
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">Nerfies</span> turns selfie videos from your phone into
+        free-viewpoint
+        portraits.
+      </h2>
+    </div>
+  </div>
+</section> -->
+<section class="model architecture">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+        <img source src="./static/images/model_architecture.png" />
+      <h2 class="subtitle has-text-centered">
+        <span class="dnerf">HuMoGen-X</span> takes music, dance genre class and user-defined keyframes and outputs 3D dance motion aligned with all of three conditions
+      </h2>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            We introduce <strong>HuMoGen-X</strong>, a controllable diffusion-based framework for 3D dance motion generation conditioned on three user-defined inputs: music, dance genre, and keyframes. While prior models primarily focus on music alignment or implicit genre control, HuMoGen-X enables explicit and disentangled conditioning across modalities, allowing users to guide choreography both stylistically and structurally.
+          </p>
+          <p>
+            To support this framework, we construct a novel dataset, <strong>CrossGenreSet</strong>, which comprises 12 distinct dance genres and includes both genre-aligned and genre-mismatched pairs. This dataset not only increases motion diversity but also enables robust evaluation under complex multi-conditional control scenarios.
+            Our model extends the denoising diffusion probabilistic model by incorporating a Transformer-based decoder and introduces <strong>Chained Classifier-Free Guidance (Chained CFG)</strong> to generate realistic and high-quality 3D dance motions conditioned simultaneously on music, genre, and keyframes. Furthermore, we integrate an additional independent single-condition CFG mechanism, allowing fine-grained modulation of each input condition—music, genre, and keyframe—during the sampling process.
+          </p>
+          <p>
+            To quantitatively assess the genre consistency of the generated motions, we introduce a lightweight genre classifier tailored for the HuMoGen-X framework. Experimental results demonstrate that HuMoGen-X consistently outperforms existing baseline models across multiple metrics, including structural alignment ($MPJPE_{k}$, $MPJPE_{g}$), rhythm-to-music synchronization (Beat Alignment), and genre fidelity (F1 score, Top-1 accuracy).
+          </p>
+          <p>
+            These findings underscore the significance of cascaded genre integration - evidenced by t-SNE visualizations—and the effectiveness of multi-conditional control enabled by the proposed Chained Classifier-Free Guidance (Chained CFG) mechanism. Collectively, they establish HuMoGen-X as a practical and expressive framework for interactive choreography generation.
+          </p>
+
+        </div>
+      </div>
+    </div>
+    <!--/ Abstract. -->
+
+    <!-- Paper video. -->
+    <!-- <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Video</h2>
+        <div class="publication-video">
+          <iframe src="https://www.youtube.com/embed/MrKrnHhk8IA?rel=0&amp;showinfo=0"
+                  frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        </div>
+      </div>
+    </div> -->
+    <!--/ Paper video. -->
+  </div>
+</section>
+
+
+<section class="section" id="best-guidance-samples">
+  <div class="container">
+    <h2 class="title is-4 has-text-centered">Best Guidance Settings — 3 Conditions</h2>
+    <p class="subtitle is-6 has-text-centered">각 카드의 태그는 사용한 guidance weight를 나타냅니다.</p>
+
+    <div class="columns is-multiline">
+
+      <!-- 1) Genre-only (s_go) -->
+      <div class="column is-12-mobile is-6-tablet is-4-desktop">
+        <div class="card item item-genre">
+          <div class="card-content has-text-centered">
+            <p class="title is-5">Genre-only</p>
+            <div class="tags is-centered">
+              <span class="tag is-info">s_go = 6</span>
+            </div>
+          </div>
+          <div class="card-image">
+            <figure class="image">
+              <video
+                id="vid-genre-only"
+                class="video"
+                autoplay
+                controls
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                style="width:100%; height:auto; border-radius:12px;">
+                <source src="./static/videos/genre_only/test_gHO_test_mAP2_gJB1.mp4" type="video/mp4">
+                <!-- fallback -->
+                Your browser does not support the video tag.
+              </video>
+            </figure>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2) Keyframe-only (s_so) -->
+      <div class="column is-12-mobile is-6-tablet is-4-desktop">
+        <div class="card item item-sketch">
+          <div class="card-content has-text-centered">
+            <p class="title is-5">Keyframe-only</p>
+            <div class="tags is-centered">
+              <span class="tag is-primary">5K</span>
+              <span class="tag is-link">s_so = 1</span>
+            </div>
+          </div>
+          <div class="card-image">
+            <figure class="image">
+              <video
+                id="vid-keyframe-only"
+                class="video"
+                autoplay
+                controls
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                style="width:100%; height:auto; border-radius:12px;">
+                <source src="./static/videos/keyframe_only/sample_keyframe_best.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </figure>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2) Music-only (s_so) -->
+      <div class="column is-12-mobile is-6-tablet is-4-desktop">
+        <div class="card item item-sketch">
+          <div class="card-content has-text-centered">
+            <p class="title is-5">Music-only</p>
+            <div class="tags is-centered">
+              <span class="tag is-link">s_mo = 1</span>
+            </div>
+          </div>
+          <div class="card-image">
+            <figure class="image">
+              <video
+                id="vid-keyframe-only"
+                class="video"
+                autoplay
+                controls
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                style="width:100%; height:auto; border-radius:12px;">
+                <source src="./static/videos/keyframe_only/sample_keyframe_best.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </figure>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3) All Conditions (music + genre + sketch) -->
+      <div class="column is-12-mobile is-6-tablet is-4-desktop">
+        <div class="card item item-all">
+          <div class="card-content has-text-centered">
+            <p class="title is-5">Music + Genre + Sketch</p>
+            <div class="tags is-centered">
+              <span class="tag is-primary">BreakDance</span>
+              <span class="tag is-primary">s_mo = 1.0</span>
+              <span class="tag is-primary is-light">s_mg = 1.0</span>
+              <span class="tag is-warning">s_mgs = 1.0</span>
+            </div>
+          </div>
+          <div class="card-image">
+            <figure class="image">
+              <video
+                id="vid-all"
+                class="video"
+                autoplay
+                controls
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                style="width:100%; height:auto; border-radius:12px;">
+                <source src="./static/videos/all_conditions/best_all_conditions.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </figure>
+          </div>
+        </div>
+      </div>
+      <!-- 3) All Conditions (music + genre + sketch) -->
+      <div class="column is-12-mobile is-6-tablet is-4-desktop">
+        <div class="card item item-all">
+          <div class="card-content has-text-centered">
+            <p class="title is-5">Music + Genre + Sketch</p>
+            <div class="tags is-centered">
+              <span class="tag is-primary">Suffle</span>
+              <span class="tag is-primary">s_mo = 1.0</span>
+              <span class="tag is-primary is-light">s_mg = 1.0</span>
+              <span class="tag is-warning">s_mgs = 1.0</span>
+            </div>
+          </div>
+          <div class="card-image">
+            <figure class="image">
+              <video
+                id="vid-all"
+                class="video"
+                autoplay
+                controls
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                style="width:100%; height:auto; border-radius:12px;">
+                <source src="./static/videos/all_conditions/best_all_conditions.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </figure>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6) All Conditions (music + genre + sketch) -->
+      <div class="column is-12-mobile is-6-tablet is-4-desktop">
+        <div class="card item item-all">
+          <div class="card-content has-text-centered">
+            <p class="title is-5">Music + Genre + Sketch</p>
+            <div class="tags is-centered">
+              <span class="tag is-primary">Latin</span>
+              <span class="tag is-primary">s_mo = 1.0</span>
+              <span class="tag is-primary is-light">s_mg = 1.0</span>
+              <span class="tag is-warning">s_mgs = 1.0</span>
+            </div>
+          </div>
+          <div class="card-image">
+            <figure class="image">
+              <video
+                id="vid-all"
+                class="video"
+                autoplay
+                controls
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                style="width:100%; height:auto; border-radius:12px;">
+                <source src="./static/videos/all_conditions/best_all_conditions.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+              </video>
+            </figure>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Optional: 작은 주석/설명 -->
+    <p class="has-text-grey is-size-7 has-text-centered" style="margin-top:0.5rem;">
+      * 위 수치는 예시입니다. 실제 실험에서 찾은 최적값으로 교체하세요.
+    </p>
+  </div>
+</section>
+
+
+<section class="hero is-light is-small">
+  <!-- 제목 줄 -->
+  <div class="hero-head">
+    <div class="container is-max-desktop">
+      <h2 class="title is-3 has-text-centered">Genre-condition only</h2>
+      <!-- 선택: sweep 정보 한 줄 메모 -->
+      <!-- <p class="subtitle has-text-centered is-6">Best sweep: s_g = 2.0, s_m = 0.0, s_s = 0.0</p> -->
+    </div>
+  </div>
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+        <div class="item item-steve">
+          <p class="has-text-centered"><strong>House</strong></p>
+          <video poster="" id="steve" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/genre_only/test_gHO_test_mAP2_gJB1.mp4"
+                    type="video/mp4">
+          </video>
+          <!-- <p class="has-text-centered"><em>Genre: House</em></p> -->
+        </div>
+        <div class="item item-chair-tp">
+          <p class="has-text-centered"><strong>Street Jazz</strong></p>
+          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/genre_only/test_gJS_test_mRB1_gBR1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-shiba">
+          <p class="has-text-centered"><strong>Waacking</strong></p>
+          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/genre_only/test_gWA_test_mLT2_gLO1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-fullbody">
+          <p class="has-text-centered"><strong>Middle Hip-Hop</strong></p>
+          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/genre_only/test_gMH_test_mDI1_gPO1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-blueshirt">
+          <p class="has-text-centered"><strong>Latin</strong></p>
+          <video poster="" id="blueshirt" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/genre_only/test_gLT_test_mCN4_gJB1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-mask">
+          <p class="has-text-centered"><strong>Locking</strong></p>
+          <video poster="" id="mask" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/genre_only/test_gLO_test_mAP3_gJS1.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!-- <div class="item item-coffee">
+          <video poster="" id="coffee" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/coffee.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-toby">
+          <video poster="" id="toby" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/toby2.mp4"
+                    type="video/mp4"> -->
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+
+    <!-- Animation. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Keyframe-only</h2>
+
+        <!-- Interpolating. -->
+        <h3 class="title is-4">Video comparison</h3>
+        <div class="content has-text-justified">
+          <p>
+            We can also create motions aligned with the input key poses provided by users. 
+          </p>
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 controls
+                 muted
+                 preload
+                 playsinline
+                 width="75%">
+            <source src="./static/videos/keyframe_only/Keyframe_comparison.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!--/ Interpolating. -->
+
+        <!-- Re-rendering. -->
+        <!-- <h3 class="title is-4">Re-rendering the input video</h3>
+        <div class="content has-text-justified">
+          <p>
+            Using <span class="dnerf">Nerfies</span>, you can re-render a video from a novel
+            viewpoint such as a stabilized camera by playing back the training deformations.
+          </p>
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 controls
+                 muted
+                 preload
+                 playsinline
+                 width="75%">
+            <source src="./static/videos/replay.mp4"
+                    type="video/mp4">
+          </video>
+        </div> -->
+        <!--/ Re-rendering. -->
+
+      </div>
+    </div>
+    <!--/ Animation. -->
+    <!-- Animation. -->
+    <!-- <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Animation</h2>
+
+        
+        <h3 class="title is-4">Interpolating states</h3>
+        <div class="content has-text-justified">
+          <p>
+            We can also animate the scene by interpolating the deformation latent codes of two input
+            frames. Use the slider here to linearly interpolate between the left frame and the right
+            frame.
+          </p>
+        </div>
+        <div class="columns is-vcentered interpolation-panel">
+          <div class="column is-3 has-text-centered">
+            <img src="./static/images/interpolate_start.jpg"
+                 class="interpolation-image"
+                 alt="Interpolate start reference image."/>
+            <p>Start Frame</p>
+          </div>
+          <div class="column interpolation-video-column">
+            <div id="interpolation-image-wrapper">
+              Loading...
+            </div>
+            <input class="slider is-fullwidth is-large is-info"
+                   id="interpolation-slider"
+                   step="1" min="0" max="100" value="0" type="range">
+          </div>
+          <div class="column is-3 has-text-centered">
+            <img src="./static/images/interpolate_end.jpg"
+                 class="interpolation-image"
+                 alt="Interpolation end reference image."/>
+            <p class="is-bold">End Frame</p>
+          </div>
+        </div>
+        <br/>
+     
+        <h3 class="title is-4">Re-rendering the input video</h3>
+        <div class="content has-text-justified">
+          <p>
+            Using <span class="dnerf">Nerfies</span>, you can re-render a video from a novel
+            viewpoint such as a stabilized camera by playing back the training deformations.
+          </p>
+        </div>
+        <div class="content has-text-centered">
+          <video id="replay-video"
+                 controls
+                 muted
+                 preload
+                 playsinline
+                 width="75%">
+            <source src="./static/videos/replay.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+
+      </div>
+    </div> -->
+    <!--/ Animation. -->
+
+
+    <!-- Concurrent Work. -->
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3">Related Links</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            There's a lot of excellent work that was introduced around the same time as ours.
+          </p>
+          <p>
+            <a href="https://arxiv.org/abs/2104.09125">Progressive Encoding for Neural Optimization</a> introduces an idea similar to our windowed position encoding for coarse-to-fine optimization.
+          </p>
+          <p>
+            <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">D-NeRF</a> and <a href="https://gvv.mpi-inf.mpg.de/projects/nonrigid_nerf/">NR-NeRF</a>
+            both use deformation fields to model non-rigid scenes.
+          </p>
+          <p>
+            Some works model videos with a NeRF by directly modulating the density, such as <a href="https://video-nerf.github.io/">Video-NeRF</a>, <a href="https://www.cs.cornell.edu/~zl548/NSFF/">NSFF</a>, and <a href="https://neural-3d-video.github.io/">DyNeRF</a>
+          </p>
+          <p>
+            There are probably many more by the time you are reading this. Check out <a href="https://dellaert.github.io/NeRF/">Frank Dellart's survey on recent NeRF papers</a>, and <a href="https://github.com/yenchenlin/awesome-NeRF">Yen-Chen Lin's curated list of NeRF papers</a>.
+          </p>
+        </div>
+      </div>
+    </div>
+    <!--/ Concurrent Work. -->
+
+  </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{park2021nerfies,
+  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
+  title     = {Nerfies: Deformable Neural Radiance Fields},
+  journal   = {ICCV},
+  year      = {2021},
+}</code></pre>
+  </div>
+</section>
+
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <a class="icon-link"
+         href="./static/videos/nerfies_paper.pdf">
+        <i class="fas fa-file-pdf"></i>
+      </a>
+      <a class="icon-link" href="https://github.com/keunhong" class="external-link" disabled>
+        <i class="fab fa-github"></i>
+      </a>
+    </div>
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+          <p>
+            This website is licensed under a <a rel="license"
+                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+          <p>
+            This means you are free to borrow the <a
+              href="https://github.com/nerfies/nerfies.github.io">source code</a> of this website,
+            we just ask that you link back to this page in the footer.
+            Please remember to remove the analytics code included in the header of the website which
+            you do not want on your website.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
